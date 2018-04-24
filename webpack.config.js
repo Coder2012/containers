@@ -1,6 +1,8 @@
 const webpack = require('webpack')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const fontsInput = 'fonts'
 const fontsOutput = 'fonts'
@@ -12,7 +14,7 @@ module.exports = {
   entry: './js/app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].[hash:8].bundle.js'
   },
   devtool: 'source-map',
   devServer: {
@@ -34,6 +36,13 @@ module.exports = {
     }]
   },
   plugins: [
+    new CleanWebpackPlugin([
+      'dist'
+    ]),
+    new HtmlWebpackPlugin({
+      title: 'Containers',
+      filename: 'index.html'
+    }),
     new CopyWebpackPlugin([
       { from: `${imagesInput}`, to: `${imagesOutput}` },
       { from: `${fontsInput}`, to: `${fontsOutput}` }
