@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const fontsInput = 'fonts'
 const fontsOutput = 'fonts'
@@ -35,7 +34,6 @@ module.exports = {
     }]
   },
   plugins: [
-    new HtmlWebpackPlugin(),
     new CopyWebpackPlugin([
       { from: `${imagesInput}`, to: `${imagesOutput}` },
       { from: `${fontsInput}`, to: `${fontsOutput}` }
