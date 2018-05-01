@@ -20,8 +20,8 @@ export default class Crane extends PIXI.Sprite {
 	move() {
 
 		if(this._container === undefined || this._platform === undefined) {
-			console.log('container: ', this._container !== undefined)
-			console.log('platform: ', this._platform !== undefined)
+			// console.log('container: ', this._container !== undefined)
+			// console.log('platform: ', this._platform !== undefined)
 			return
 		}
 		this.emit('crane-moving')

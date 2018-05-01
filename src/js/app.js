@@ -10,6 +10,16 @@ import Fleet from './fleet.js'
 import Timer from './timer.js'
 import Bank from './bank.js'
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(registration => {
+      console.log('SW registered: ', registration);
+    }).catch(registrationError => {
+      console.log('SW registration failed: ', registrationError);
+    });
+  });
+}
+
 const canvas = document.createElement('canvas');
 
 canvas.id = "backgroundGradient";
@@ -35,7 +45,6 @@ const app = new PIXI.Application({
 })
 
 document.body.appendChild(app.view)
-
 
 const loader = app.loader
 loader.add('fonts/font.fnt')
@@ -121,8 +130,9 @@ function createBank() {
 
 function onTimerCompleted() {
   timer.stop()
-
+  
   if(!craneMoving) {
+    crane.platform = crane.container = undefined;
     fleet.depart()
   }
 }
@@ -140,7 +150,7 @@ function onShipDeparted() {
 }
 
 function onPlatformSelected(value) {
-  if(!shipMoving) {
+  if(!crane.platform && !shipMoving && crane.container !== undefined) {
     crane.platform = value.currentTarget
   }else{
     crane.platform = crane.container = undefined
@@ -148,7 +158,7 @@ function onPlatformSelected(value) {
 }
 
 function onContainerSelected(value) {
-  if(!shipMoving) {
+  if(!crane.container && !shipMoving) {
     crane.container = value.currentTarget
   }else{
     crane.platform = crane.container = undefined
